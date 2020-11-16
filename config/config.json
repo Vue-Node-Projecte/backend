@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "admin",
-    "password": "dlguswhd3323!",
+    "password": "",
     "database": "1Hour",
-    "host": "db-sopt-server.cn66xll6corc.ap-northeast-2.rds.amazonaws.com",
+    "host": "",
     "dialect": "mysql"
   },
   "test": {
