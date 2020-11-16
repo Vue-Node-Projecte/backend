@@ -15,7 +15,7 @@ module.exports=(sequelize,DataTypes)=>{
         },
         salt : {
             type : DataTypes.STRING(200),
-            allowNull:false
+            allowNull:true
         },
         grade:{
             type : DataTypes.INTEGER,
@@ -23,10 +23,14 @@ module.exports=(sequelize,DataTypes)=>{
         },
         classroom:{
             type : DataTypes.INTEGER,
-            allowNull:false
+            allowNull:true
         },
         number:{
             type : DataTypes.INTEGER,
+            allowNull:true
+        },
+        type:{
+            type:DataTypes.INTEGER,
             allowNull:false
         }
     },{

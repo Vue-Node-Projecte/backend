@@ -3,10 +3,6 @@ module.exports=(sequelize,DataTypes)=>{
         name : {
             type : DataTypes.STRING(10),
             allowNull:false
-        },
-        test:{
-            type : DataTypes.STRING(10),
-            allowNull:false
         }
     },{
         timestamp:true,

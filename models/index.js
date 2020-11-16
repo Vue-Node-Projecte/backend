@@ -12,9 +12,9 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.Users = require('./users')(sequelize,Sequelize);
 db.Organizations = require('./organizations')(sequelize,Sequelize)
+db.Affiliations = require('./affiliations')(sequelize,Sequelize)
 
-/*1:N User:Organization */
-db.Users.hasMany(db.Organizations,{onDelete:'cascade'})
-db.Organizations.belongsTo(db.Users)
+db.Users.belongsToMany(db.Organizations,{through:'Affiliations',as:'affiliationed'})
+db.Organizations.belongsToMany(db.Users,{through:'Affiliations',as:'affiliationer'})
 
 module.exports = db;
