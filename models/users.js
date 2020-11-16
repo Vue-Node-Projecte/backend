@@ -2,7 +2,6 @@ module.exports=(sequelize,DataTypes)=>{
     const users = sequelize.define('Users',{
         email:{
             type : DataTypes.STRING(20),
-            unique : true,
             allowNull : false
         },
         name:{
@@ -29,7 +28,7 @@ module.exports=(sequelize,DataTypes)=>{
             type : DataTypes.INTEGER,
             allowNull:true
         },
-        type:{
+        authority :{
             type:DataTypes.INTEGER,
             allowNull:false
         }

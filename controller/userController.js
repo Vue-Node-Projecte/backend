@@ -5,8 +5,8 @@ const statusCode = require('../modules/statusCode')
 const {userService} = require('../service')
 module.exports={
     registration:async(req,res)=>{
-        const {name, type, organizationId,email,password} = req.body;
-        if(!name || !type || !organizationId || !email ||!password){
+        const {name, authority, organizationId,email,password,grade,classroom,number} = req.body;
+        if(!name || !authority || !organizationId || !email || !password){
             return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST,responseMessage.NULL_VALUE))
         }
         try{
@@ -14,7 +14,12 @@ module.exports={
             if(alreadyEmail != null){
                 return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST,responseMessage.ALREADY_ID))
             }
-            const affiliation = await userService.createUser(name,type,organizationId,email,password)
+            let affiliation
+            if(authority==1){
+                affiliation = await userService.createTeacher(name,authority,organizationId,email,password)
+            }else{
+                affiliation = await userService.createStudent(name, authority, organizationId,email,password,grade,classroom,number)
+            }
             return res.status(statusCode.OK).send(util.success(statusCode.OK,responseMessage.SIGN_UP_SUCCESS,affiliation))
         }catch(err){
             console.log(err)
@@ -23,16 +28,17 @@ module.exports={
     },
     login:async(req,res)=>{
         const {email, password} = req.body;
+        if(!email || !password){
+            return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST,responseMessage.NULL_VALUE))
+        }
         try{
-            if(!email || !password){
-                return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST,responseMessage.NULL_VALUE))
+            const user = await userService.login(email,password)
+            if(user == null){
+                return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST,responseMessage.NO_USER))
             }
-            console.log('email : ',email)
-            const user = await userService.emailCheck(email)
-            console.log(user)
             return res.status(statusCode.OK).send(util.success(statusCode.OK,responseMessage.SIGN_IN_SUCCESS,user))
-        }catch(error){
-            console.log(error)
+        }catch(err){
+            console.log(err)
             return res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.fail(statusCode.INTERNAL_SERVER_ERROR,responseMessage.INTERNAL_SERVER_ERROR))
         }   
     }
